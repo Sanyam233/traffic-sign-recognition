@@ -3,6 +3,7 @@ import tensorflow as tf
 from flask import Flask, request
 from flask_cors import CORS
 
+from constants import HTTP_STATUS_CODE
 from errors import AppError
 from utils import preprocess_image, read_json, send_response
 
@@ -17,14 +18,14 @@ gtsrb_labels = read_json("gtsrb-labels.json")
 def classify_traffic_sign():
     try:
         if "image" not in request.files:
-            raise AppError(code=400, message="No image uploaded.")
+            raise AppError(code=HTTP_STATUS_CODE.BAD_REQUEST, message="No image uploaded.")
 
         img_file = request.files["image"]
         if img_file.filename == "":
-            raise AppError(code=400, message="No image name found.")
+            raise AppError(code=HTTP_STATUS_CODE.BAD_REQUEST, message="No image name found.")
 
         if img_file and not img_file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-            raise AppError(code=400, message="Accepted formats: .png, .jpg or .jpeg.")
+            raise AppError(code=HTTP_STATUS_CODE.BAD_REQUEST, message="Accepted formats: .png, .jpg or .jpeg.")
 
         # Process image
         img_bytes = img_file.read()
@@ -32,10 +33,11 @@ def classify_traffic_sign():
         
         # Predict image class
         predictions = model.predict(processed_img)
+        print(predictions)
         predicted_class, confidence = int(np.argmax(predictions[0])), float(np.max(predictions[0]))
         
         if predicted_class is None or confidence is None:
-            raise AppError(code=500, message="Prediction failed")
+            raise AppError(code=HTTP_STATUS_CODE.INTERNAL_SERVER, message="Prediction failed")
 
         predicted_label = gtsrb_labels.get(str(predicted_class))
         confidence = round(confidence, 3)
@@ -49,7 +51,7 @@ def classify_traffic_sign():
     except AppError as e:
         return send_response("error", {"message" : e.message}), e.code
     except Exception as e:
-        return send_response("error", {"message" : "Something went wrong! please try again later."}), 500
+        return send_response("error", {"message" : "Something went wrong! please try again later."}), HTTP_STATUS_CODE.INTERNAL_SERVER
 
 
 

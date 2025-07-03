@@ -2,16 +2,17 @@ import { useState } from "react";
 import "./App.css";
 import axios from "axios";
 import type { PredictionResult } from "./types/app";
+import { getConfidenceColorClass } from "./utils/confidence";
 
 function App() {
   const [image, setImage] = useState<string>("");
   const [result, setResult] = useState<PredictionResult | null>(null);
+  const allowedImageTypes = ["image/jpeg", "image/png"];
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const allowTypes = ["image/jpeg", "image/png"];
-    if (!allowTypes.includes(file.type)) {
+    if (!allowedImageTypes.includes(file.type)) {
       return;
     }
 
@@ -23,7 +24,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8080/api/v1/image/classify",
+        `${import.meta.env.VITE_SERVER_URL}/api/v1/image/classify`,
         formData,
         {
           headers: {
@@ -43,12 +44,20 @@ function App() {
     }
   };
 
+  const confidenceClass = getConfidenceColorClass(result?.confidence);
+
   return (
     <>
       <h1>Traffic Sign Classifier</h1>
       <div className="home-container">
-        <h3>Prediction: {result?.predictedLabel}</h3>
-        <h3>Confidence: {result?.confidence}</h3>
+        <h3>
+          Prediction:{" "}
+          <span className={confidenceClass}>{result?.predictedLabel}</span>
+        </h3>
+        <h3>
+          Confidence:{" "}
+          <span className={confidenceClass}>{result?.confidence}</span>
+        </h3>
         <div className="preview-image-container">
           {image && (
             <img src={image} alt="Uploaded Preview" className="preview-image" />
@@ -56,7 +65,7 @@ function App() {
         </div>
         <input
           type="file"
-          accept="image/png, image/jpeg"
+          accept={allowedImageTypes.join(",")}
           onChange={handleImageUpload}
         />
       </div>
