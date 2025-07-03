@@ -46,7 +46,8 @@ Users upload an image of a road sign via a **React + Vite + TypeScript** fronten
 
 ```json
 {
-  "label": "Speed limit (30km/h)",
+  "imageName": "000.png",
+  "predictedLabel": "Speed limit (30km/h)",
   "confidence": 0.93
 }
 ```
