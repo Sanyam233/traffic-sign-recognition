@@ -50,3 +50,12 @@ Users upload an image of a road sign via a **React + Vite + TypeScript** fronten
   "confidence": 0.93
 }
 ```
+
+## ⚠️ Model Limitations
+
+- Trained only on the GTSRB dataset; may not generalize to non-German or heavily altered signs.
+- Sensitive to poor lighting, weather, rotation, and perspective distortions.
+- Requires clear, high-resolution images; blurry or noisy images reduce accuracy.
+- Always returns a prediction; low-confidence results should be interpreted cautiously.
+- Assumes one centered sign per image; cannot handle multiple or partially visible signs.
+- For demonstration only; not suitable for real-world safety-critical applications.
