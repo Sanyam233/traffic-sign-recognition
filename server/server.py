@@ -33,7 +33,6 @@ def classify_traffic_sign():
         
         # Predict image class
         predictions = model.predict(processed_img)
-        print(predictions)
         predicted_class, confidence = int(np.argmax(predictions[0])), float(np.max(predictions[0]))
         
         if predicted_class is None or confidence is None:
