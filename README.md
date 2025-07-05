@@ -52,6 +52,14 @@ Users upload an image of a road sign via a **React + Vite + TypeScript** fronten
 }
 ```
 
+## 🔮 Sample Predictions
+
+| Image                                          | Predicted Label             | Confidence |
+| ---------------------------------------------- | --------------------------- | ---------- |
+| ![End of 80km/h](.github/images/speed_80.png)  | End of speed limit (80km/h) | 61.9%      |
+| ![Road work](.github/images/road_work.png)     | Road Work                   | 100%       |
+| ![Speed 100km/h](.github/images/speed_100.png) | Speed limit 100km/h         | 95%        |
+
 ## ⚠️ Model Limitations
 
 - Trained only on the GTSRB dataset; may not generalize to non-German or heavily altered signs.
