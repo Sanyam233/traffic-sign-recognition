@@ -52,13 +52,13 @@ Users upload an image of a road sign via a **React + Vite + TypeScript** fronten
 }
 ```
 
-## Sample Predictions
+## 🔮 Sample Predictions
 
-| Image                                        | Predicted Label      | Confidence |
-| -------------------------------------------- | -------------------- | ---------- |
-| ![80km/h](.github/images/speed_limit_80.png) | Speed limit (80km/h) | 97.6%      |
-| ![Stop](.github/images/stop_sign.png)        | Stop                 | 98%        |
-| ![No Entry](.github/images/no_entry.png)     | No entry             | 95%        |
+| Image                                          | Predicted Label             | Confidence |
+| ---------------------------------------------- | --------------------------- | ---------- |
+| ![End of 80km/h](.github/images/speed_80.png)  | End of speed limit (80km/h) | 61.9%      |
+| ![Road work](.github/images/road_work.png)     | Road Work                   | 100%       |
+| ![Speed 100km/h](.github/images/speed_100.png) | Speed limit 100km/h         | 95%        |
 
 ## ⚠️ Model Limitations
 
